@@ -7,6 +7,8 @@
 #include <Fonts/FreeSans9pt7b.h>
 #include <Fonts/FreeSans18pt7b.h>
 #include <Fonts/FreeSans12pt7b.h>
+#include <ESP32WebServer.h>
+#include <WiFi.h>
 
 #define OLED_RESET -1
 #define ONE_WIRE_BUS 13
@@ -17,6 +19,32 @@ int ledPin = 2;
 int analogPin = 34;
 const int sensorPin = 32;
 int val = 0;
+
+int moisture;
+
+// ----------------------------------------------------------------------------------------------
+// Your WiFi credentials.
+// Set password to "" for open networks.
+char ssid[] = "Choll_2.4G"; //เปลี่ยนไวไฟ
+char pass[] = "0997122060"; //เปลี่ยนรหัสไวไฟ
+
+char ipaddress[20];
+
+WiFiServer server(80);
+String header;
+
+unsigned long currentTime = millis();
+unsigned long previousTime = 0;
+const long timeoutTime = 2000;
+
+#define UPDATE_INTERVAL_HOUR  (1)
+#define UPDATE_INTERVAL_MIN   (0)
+#define UPDATE_INTERVAL_SEC   (0)
+
+#define UPDATE_INTERVAL_MS    ( ((UPDATE_INTERVAL_HOUR*60*60) + (UPDATE_INTERVAL_MIN * 60) + UPDATE_INTERVAL_SEC ) * 1000 )
+
+int Temperature = 0;
+int Humidity = 0;
 
 const unsigned char PROGMEM smile_frame0[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x1F, 0xF8, 0x00, 0x00, 0x7C, 0x1E, 0x00, 0x01, 0xC0, 0x03, 0x80, 0x03, 0x80, 0x01, 0xC0, 0x07, 0x00, 0x00, 0x60, 0x0C, 0x00, 0x00, 0x30, 0x0C, 0x00, 0x00, 0x30, 0x18, 0x00, 0x00, 0x18, 0x10, 0x00, 0x00, 0x0C, 0x30, 0x00, 0x00, 0x0C, 0x30, 0x30, 0x0C, 0x0C, 0x20, 0x78, 0x1E, 0x04, 0x60, 0x78, 0x1E, 0x06, 0x60, 0x78, 0x1E, 0x06, 0x60, 0x00, 0x00, 0x06, 0x60, 0x00, 0x00, 0x06, 0x60, 0x00, 0x00, 0x06, 0x61, 0x00, 0x01, 0x86, 0x21, 0xC0, 0x01, 0x84, 0x30, 0xC0, 0x07, 0x0C, 0x30, 0x70, 0x0E, 0x0C, 0x18, 0x3F, 0x78, 0x18, 0x18, 0x07, 0xE0, 0x18, 0x0C, 0x00, 0x00, 0x30, 0x06, 0x00, 0x00, 0x60, 0x03, 0x00, 0x00, 0xC0, 0x01, 0xC0, 0x03, 0x80, 0x00, 0xF0, 0x0F, 0x00, 0x00, 0x3F, 0xFC, 0x00, 0x00, 0x07, 0xE0, 0x00, 0x00, 0x00, 0x00, 0x00};
 
@@ -262,7 +290,8 @@ const int frame_size = 32;
 
 void setup()
 {
-  Serial.begin(9600);
+   
+  Serial.begin(115200);
   pinMode(ledPin, OUTPUT);
   Serial.println("Dallas Temperature IC Control Library");
   sensors.begin();
@@ -271,11 +300,44 @@ void setup()
   display.clearDisplay();
   display.setFont(&FreeSans9pt7b);
   display.setTextColor(WHITE);
+
+  Serial.print("Connecting");
+  WiFi.begin(ssid, pass); 
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    Serial.print(".");
+    digitalWrite(13, LOW);
+    delay(50);
+    digitalWrite(13, HIGH);
+    delay(50);
+  }
+
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("\nConnected");
+  }
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+  WiFi.begin(ssid, pass);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected.");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+  server.begin();
 }
 
 int xx = 50;
 int yy = 0;
 int tt = 5;
+
+unsigned long time_ms;
+unsigned long time_1000_ms_buf;
+unsigned long time_sheet_update_buf;
+unsigned long time_dif;
+
 
 float ldrToLumen(int ldrValue)
 {
@@ -301,6 +363,109 @@ void loop()
   Serial.print("Moisture: ");
   Serial.print(moisture);
   Serial.println("%");
+
+   WiFiClient client = server.available();
+
+  time_ms = millis();
+  time_dif = time_ms - time_1000_ms_buf;
+
+  // Read and print serial data every 1 sec
+  if ( time_dif >= 1000 ) // 1sec
+  {
+    time_1000_ms_buf = time_ms;
+    Temperature = 25;
+    Humidity = 34;
+
+    // Print serial messages
+    /*if(Temperature != 2147483647 && Humidity != 2147483647){
+      lcd.setCursor(0,0);
+      lcd.print("Temperature: " + String(Temperature) + " C");
+      lcd.setCursor(0,1);
+      lcd.print("Humidity:" + String(Humidity) + " %");  // Print humidity value
+      delay(100);
+      }*/
+
+
+    digitalWrite(13, !digitalRead(13));
+
+  }
+  // WiFiClient client = server.available();   // Listen for incoming clients
+  if (client) {                             // If a new client connects,
+    Serial.println("New Client.");          // print a message out in the serial port
+    String currentLine = "";                // make a String to hold incoming data from the client
+    currentTime = millis();
+    previousTime = currentTime;
+    while (client.connected() && currentTime - previousTime <= timeoutTime) { // loop while the client's connected
+      currentTime = millis();
+      if (client.available()) {             // if there's bytes to read from the client,
+        char c = client.read();             // read a byte, then
+        Serial.write(c);                    // print it out the serial monitor
+        header += c;
+        if (c == '\n') {                    // if the byte is a newline character
+          // if the current line is blank, you got two newline characters in a row.
+          // that's the end of the client HTTP request, so send a response:
+          if (currentLine.length() == 0) {
+            // HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
+            // and a content-type so the client knows what's coming, then a blank line:
+            client.println("HTTP/1.1 200 OK");
+            client.println("Content-Type: text/html");
+            client.println();
+            client.println("<!DOCTYPE html>");
+            client.println("<html>");
+            client.println("<head>");
+            client.println("<title>Emoplanter.IOT</title>");
+            client.println("<meta charset='UTF-8'>");
+            client.println("<meta name='viewport' content='width=device-width, initial-scale=1'>");
+            client.println("<link rel='stylesheet' href='https://www.w3schools.com/w3css/4/w3.css'>");
+            client.println("<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Poppins'>");
+            client.println("<style>");
+            client.println("body,h1,h2,h3,h4,h5 {font-family: 'Poppins', sans-serif}");
+            client.println("body {font-size:16px;}");
+            client.println(".w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}");
+            client.println(".w3-half img:hover{opacity:1}");
+            client.println("</style>");
+            client.println("</head>");
+            client.println("<body>");
+            // add your content here
+            client.println("<nav class=' w3-sidebar w3-collapse w3-top w3-large' style='z-index:3;width:300px;font-weight:bold;background-color: #0D2329;' id='mySidebar' ><br>");
+            client.println("<a href='javascript:void(0)' onclick='w3_close()' class='w3-button w3-hide-large w3-display-topleft' style='width:100%; font-size:22px'>Close Menu</a>");
+            client.println("<img src = 'https://cdn.fbsbx.com/v/t59.2708-21/343065524_240535281838773_6005365867278290012_n.gif?_nc_cat=102&ccb=1-7&_nc_sid=041f46&_nc_eui2=AeG5wFBgVTBMmRwdK7vwGyp57-qLX8crph3v6otfxyumHfhU-m473656GkyGUxKmxi6nQXZYnE_hlpYzMK_oz9N8&_nc_ohc=073NvDUudI0AX94G6Zl&_nc_ht=cdn.fbsbx.com&oh=03_AdS4s-6hzl8dUYEJ6woNTPKKrijpZvgqpldms6Lb7BsK1A&oe=644D14B5' width='350px' style='margin-left: -35px;'>");
+            client.println("<div class='w3-container'>");
+            client.println("</div>");
+            client.println("<div class='w3-bar-block' style='color: white; margin-left: 8px;'>");
+            client.println("<a href='#' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white' >Home</a>");
+            client.println("<a href='#showcase' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Showcase</a>");
+            client.println("<a href='#services' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Services</a>");
+            client.println("<a href='#designers' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Designers</a>");
+            client.println("<a href='#packages' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Packages</a>");
+            client.println("<a href='#contact' onclick='w3_close()' class='w3-bar-item w3-button w3-hover-white'>Contact</a>");
+            client.println("<br>");
+            client.println("<br>");
+            client.println("<p style='color: #D1FF5D; margin-left: 15px;'>01076108 Circuits and Electronics in Practice of<br>Computer Enginneering</p>");
+            client.println("<p style='color: #FF914D; margin-left: 15px;'>KMITL, 1 Chalong Krung, 1 Alley, Lat Krabang, Bangkok 10520</p>");
+            client.println("<p style='color: white; margin-left: 15px;'>@Copyright.Choll.Khris</p>");
+            client.println("</div>");  
+
+
+            // The HTTP response ends with another blank line
+            client.println();
+            // Break out of the while loop
+            break;
+          } else { // if you got a newline, then clear currentLine
+            currentLine = "";
+          }
+        } else if (c != '\r') {  // if you got anything else but a carriage return character,
+          currentLine += c;      // add it to the end of the currentLine
+        }
+      }
+    }
+    // Clear the header variable
+    header = "";
+    // Close the connection
+    client.stop();
+    Serial.println("Client disconnected.");
+    Serial.println("");
+  }
 
   display.clearDisplay();
   display.setTextSize(1);
