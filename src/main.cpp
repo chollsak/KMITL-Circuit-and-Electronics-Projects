@@ -280,8 +280,7 @@ int tt = 5;
 float ldrToLumen(int ldrValue)
 {
   float lumen = 0.0;
-  // Your conversion formula here, for example:
-  lumen = map(ldrValue, 0, 1023, 0, 100); // Map 0-1023 LDR value to 0-100 lumen range
+  lumen = map(ldrValue, 0, 1023, 0, 100);
   return lumen;
 }
 
