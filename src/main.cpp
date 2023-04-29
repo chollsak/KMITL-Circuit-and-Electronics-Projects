@@ -355,7 +355,7 @@ void loop()
   Serial.print("Lumen = ");
   Serial.println(lumen);
   int sensorValue = analogRead(sensorPin);
-  int moisture = map(sensorValue, 0, 4095, 0, 100);
+  int moisture = map(sensorValue, 0, 1023, 100, 0);
   Serial.print("Moisture: ");
   Serial.print(moisture);
   Serial.println("%");
@@ -408,13 +408,16 @@ void loop()
             client.println("body {font-size:16px; overflow: hidden; }");
             client.println(".w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}");
             client.println(".w3-half img:hover{opacity:1}");
+            client.println("::-webkit-scrollbar { width: 0px; height: 5px; }");
+            client.println("::-webkit-scrollbar-thumb { background-color: rgb(114, 113, 113); border-radius: 10px; height: 200px; }");
+            client.println("::-webkit-scrollbar-track { background-color: transparent; }");
             client.println("</style>");
             client.println("</head>");
             client.println("<body>");
 
             client.println("<nav class=' w3-sidebar w3-collapse w3-top w3-large' style=\"z-index:3;width:300px;font-weight:bold;background-color: #0D2329;\" id=\"mySidebar\" ><br>");
             client.println("<a href=\"javascript:void(0)\" onclick=\"w3_close()\" class=\"w3-button w3-hide-large w3-display-topleft\" style=\"width:100%;font-size:22px; background-color: #FF914D;\">Back</a>");
-            client.println("<img src = 'https://cdn.fbsbx.com/v/t59.2708-21/343065524_240535281838773_6005365867278290012_n.gif?_nc_cat=102&ccb=1-7&_nc_sid=041f46&_nc_eui2=AeG5wFBgVTBMmRwdK7vwGyp57-qLX8crph3v6otfxyumHfhU-m473656GkyGUxKmxi6nQXZYnE_hlpYzMK_oz9N8&_nc_ohc=073NvDUudI0AX94G6Zl&_nc_ht=cdn.fbsbx.com&oh=03_AdS4s-6hzl8dUYEJ6woNTPKKrijpZvgqpldms6Lb7BsK1A&oe=644D14B5' width=\"350px\" style=\"margin-left: -35px;\">");
+            client.println("<img src ='https://cdn.fbsbx.com/v/t59.2708-21/343065524_240535281838773_6005365867278290012_n.gif?_nc_cat=102&ccb=1-7&_nc_sid=041f46&_nc_eui2=AeG5wFBgVTBMmRwdK7vwGyp57-qLX8crph3v6otfxyumHfhU-m473656GkyGUxKmxi6nQXZYnE_hlpYzMK_oz9N8&_nc_ohc=073NvDUudI0AX94G6Zl&_nc_ht=cdn.fbsbx.com&oh=03_AdS4s-6hzl8dUYEJ6woNTPKKrijpZvgqpldms6Lb7BsK1A&oe=644D14B5' width=\"350px\" style=\"margin-left: -35px;\">");
             client.println("<div class=\"w3-container\"></div>");
             client.println("<div class=\"w3-bar-block\" style=\"color: white; margin-left: 8px;\">");
             client.println("<a href=\"#\" onclick=\"w3_close()\" class=\"w3-bar-item w3-button w3-hover-white\" >Home</a>");
@@ -480,14 +483,28 @@ void loop()
             client.println("<div class=\"w3-half w3-margin-bottom\">");
             client.println("<ul class=\"w3-ul w3-light-grey w3-center\">");
             client.println("<li class=\"w3-xlarge w3-padding-32\" style=\"background-color: #0D2329;\"><span style=\"color: white;\">Quality Values</span></li>");
-            client.println("<li class=\"w3-padding-16\"><h2>Soil Moisture</h2></li>");
+            if (moisture < 3 || moisture > 6)
+            {
+              client.println("<li class=\"w3-padding-32 \"><h2>Soil Moisture</h2></li>");
+            }
+            else
+            {
+              client.println("<li class=\"w3-padding-16 \"><h2>Soil Moisture</h2></li>");
+            }
             client.println("<li class=\"w3-padding-16\"><h2>Temperature</h2></li>");
-            client.println("<li class=\"w3-padding-16\"><h2>Light Intensity</h2></li>");
-            client.println("<li class=\"w3-padding-16\"><h2>Planter's emotion<h2>");
+            client.println("<li class=\"w3-padding-48\"><h2>Light Intensity</h2></li>");
+            if (moisture < 3 || moisture > 6)
+            {
+              client.println("<li class=\"w3-padding-32\"><h2>Planter's emotion<h2>");
+            }
+            else
+            {
+              client.println("<li class=\"w3-padding-16\"><h2>Planter's emotion<h2>");
+            }
             client.println("<img src=\"https://media1.giphy.com/media/YpTSRFbHGuRfy1goOb/giphy.gif?cid=6c09b952f4e0a27e55a96cb115edb685131db6663cee8621&ep=v1_internal_gifs_gifId&rid=giphy.gif&ct=s\" width=\"50px\" alt=\"\" style=\"margin-bottom: 10px;\"><span style=\"color: green; font-size: large;\">Happy</span><br>");
-            client.println("<img src=\"https://media4.giphy.com/media/LOnt6uqjD9OexmQJRB/giphy.gif\" width=\"50px\" alt=\"\" style=\"margin-bottom: 10px;\"><span style=\"color: #87a96b; font-size: large;\">Normal</span><br>");
-            client.println("<img src=\"https://i.pinimg.com/originals/90/c6/69/90c6698dc6f9e00bb32ffb3e21042474.gif\" width=\"50px\" alt=\"\" style=\"margin-bottom: 10px;\"><span style=\"color: #FF914D; font-size: large;\">Need Something</span><br>");
-            client.println("<img src=\"https://i.pinimg.com/originals/7d/82/03/7d820389353cdd8a21f533416544a617.gif\" width=\"50px\" alt=\"\" style=\"margin-bottom: 10px;\"><span style=\"color: red; font-size: large;\">Sick!</span>");
+            client.println("<img src=\"https://i.pinimg.com/originals/15/d3/a2/15d3a2ebd771371393fcdc3adc83876b.gif\" width=\"50px\" alt=\"\" style=\"margin-bottom: 10px;\"><span style=\"color: #87a96b; font-size: large;\">Netural</span><br>");
+            client.println("<img src=\"https://i.pinimg.com/originals/7d/82/03/7d820389353cdd8a21f533416544a617.gif\" width=\"50px\" alt=\"\" style=\"margin-bottom: 10px;\"><span style=\"color: #FF914D; font-size: large;\">Sick</span><br>");
+            client.println("<img src=\"https://i.pinimg.com/originals/be/d0/db/bed0dbbfebceab064d0a0b4c6df5ac22.gif\" width=\"50px\" alt=\"\" style=\"margin-bottom: 10px;\"><span style=\"color: red; font-size: large;\">Sad</span>");
             client.println("</li>");
             client.println("</ul>");
             client.println("</div>");
@@ -497,14 +514,40 @@ void loop()
             client.println("<li class=\"w3-xlarge w3-padding-32\" style=\"background-color: #05664F;\"><span style=\"color: white;\">Realtime Data From Planter</span></li>");
             client.println("<li class=\"w3-padding-16\"><h2>");
             client.println(moisture);
-            client.println(" %</h2></li>");
+            if (moisture < 3 || moisture > 6)
+            {
+              client.println(" %</h2><h4 id=\"count-down\"></h4></ li>");
+            }
+            else
+            {
+              client.println(" %</h2></li>");
+            }
             client.println("<li class=\"w3-padding-16\"><h2>");
             client.println(temp);
             client.println("</h2></li>");
             client.println("<li class=\"w3-padding-16\"><h2>");
             client.println(lumen);
-            client.println(" %</h2></li>");
-            client.println("<img src=\"https://media1.giphy.com/media/YpTSRFbHGuRfy1goOb/giphy.gif?cid=6c09b952f4e0a27e55a96cb115edb685131db6663cee8621&ep=v1_internal_gifs_gifId&rid=giphy.gif&ct=s\" width=\"280px\" alt=\"\"><h2 style=\"color: green;\">Happy</h2><br>");
+            client.println(" %</h2><h4 id=\"time\"></h4><h4 id=\"status\"></h4></li>");
+            if ((moisture >= 3 && moisture <= 6) && (temp >= 27 && temp <= 32) && (lumen >= 50 && lumen <= 60))
+            {
+              client.println("<img src=\"https://media1.giphy.com/media/YpTSRFbHGuRfy1goOb/giphy.gif?cid=6c09b952f4e0a27e55a96cb115edb685131db6663cee8621&ep=v1_internal_gifs_gifId&rid=giphy.gif&ct=s\" width=\"280px\" alt=\"\"><h2 style=\"color: green;\">Happy</h2><br>");
+            }
+            else if ((moisture < 3 || moisture > 6) && (temp >= 27 && temp <= 32) && (lumen >= 50 && lumen <= 60) ||
+                     ((moisture >= 3 && moisture <= 6) && (temp < 27 || temp > 32) && (lumen >= 50 && lumen <= 60)) ||
+                     ((moisture >= 3 && moisture <= 6) && (temp >= 27 && temp <= 32) && (lumen < 50 || lumen > 60)))
+            {
+              client.println("<img src=\"https://i.pinimg.com/originals/15/d3/a2/15d3a2ebd771371393fcdc3adc83876b.gif\" width=\"280px\" alt=\"\" style=\"margin-bottom: 10px;\"><h2 style=\"color: #87a96b;\">Netural</h2><br>");
+            }
+            else if ((moisture < 3 || moisture > 6) && (temp < 27 || temp > 32) && (lumen >= 50 && lumen <= 60) ||
+                     ((moisture >= 3 && moisture <= 6) && (temp < 27 || temp > 32) && (lumen < 50 || lumen > 60)) ||
+                     ((moisture < 3 || moisture > 6) && (temp >= 27 && temp <= 32) && (lumen < 50 || lumen > 60)))
+            {
+              client.println("<img src=\"https://i.pinimg.com/originals/7d/82/03/7d820389353cdd8a21f533416544a617.gif\" width=\"280px\" alt=\"\" style=\"margin-bottom: 10px;\"><h2 style=\"color: #FF914D;\">Sick</h2><br>");
+            }
+            else if ((moisture < 3 || moisture > 6) && (temp < 27 || temp > 32) && (lumen < 50 || lumen > 60))
+            {
+              client.println("<img src=\"https://i.pinimg.com/originals/be/d0/db/bed0dbbfebceab064d0a0b4c6df5ac22.gif\" width=\"280px\" alt=\"\" style=\"margin-bottom: 10px;\"><h2 style=\"color: red;\">Sad</h2><br>");
+            }
             client.println("<li class=\"w3-padding-16\"></li>");
             client.println("</ul>");
             client.println("</div>");
@@ -565,6 +608,33 @@ void loop()
             client.println("var captionText = document.getElementById(\"caption\");");
             client.println("captionText.innerHTML = element.alt;");
             client.println("}");
+            client.println("var now = new Date().getTime();");
+            client.println("var countDownDate = new Date(now + (7 * 24 * 60 * 60 * 1000)).getTime();");
+            if (moisture < 3 || moisture > 6)
+            {
+              client.println("var x = setInterval(function() {");
+              client.println("var now = new Date().getTime();");
+              client.println("var distance = countDownDate - now;");
+              client.println("var days = Math.floor(distance / (1000 * 60 * 60 * 24));");
+              client.println("var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));");
+              client.println("var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));");
+              client.println("var seconds = Math.floor((distance % (1000 * 60)) / 1000);");
+              client.println("document.getElementById(\"count-down\").innerHTML = \"Please water before : \" + days + \"d \" + hours + \"h \" + minutes + \"m \" + seconds + \"s \";");
+              client.println("if (distance < 0) {");
+              client.println("clearInterval(x);");
+              client.println("document.getElementById(\"count-down\").innerHTML = \"Please Recovery\";");
+              client.println("}");
+              client.println("}, 1000);");
+            }
+            client.println("let hourTime = new Date().getHours();");
+            client.println("let options = { timeStyle: 'short' };");
+            client.println("let time = new Date().toLocaleString('en-US', options)");
+            client.println("document.getElementById(\"time\").innerHTML = \"Time : \" + time;");
+            client.println("if (hourTime >= 6 && hourTime < 15) {");
+            client.println("document.getElementById(\"status\").innerHTML = \"Please move me into house\";");
+            client.println("} else {");
+            client.println("document.getElementById(\"status\").innerHTML = \"Please move me into house\";");
+            client.println("}");
             client.println("</script>");
             client.println();
             break;
@@ -586,17 +656,7 @@ void loop()
     Serial.println("");
   }
 
-  if (sensors.getTempCByIndex(0) > 28.00 || val < 400)
-  {
-    for (int i = 0; i < sick_frames_size; i++)
-    {
-      display.clearDisplay();
-      display.drawBitmap(xx, yy, sick_frames[i], frame_size, frame_size, 1);
-      display.display();
-      delay(tt);
-    }
-  }
-  else if (sensors.getTempCByIndex(0) < 28.00 || val > 400)
+  if ((moisture >= 3 && moisture <= 6) && (temp >= 27 && temp <= 32) && (lumen >= 50 && lumen <= 60))
   {
     for (int i = 0; i < smile_frames_size; i++)
     {
@@ -606,22 +666,36 @@ void loop()
       delay(tt);
     }
   }
-  else if (sensors.getTempCByIndex(0) < 28.00 || val < 400)
-  {
-    for (int i = 0; i < sad_frames_size; i++)
-    {
-      display.clearDisplay();
-      display.drawBitmap(xx, yy, sad_frames[i], frame_size, frame_size, 1);
-      display.display();
-      delay(tt);
-    }
-  }
-  else
+  else if ((moisture < 3 || moisture > 6) && (temp >= 27 && temp <= 32) && (lumen >= 50 && lumen <= 60) ||
+           ((moisture >= 3 && moisture <= 6) && (temp < 27 || temp > 32) && (lumen >= 50 && lumen <= 60)) ||
+           ((moisture >= 3 && moisture <= 6) && (temp >= 27 && temp <= 32) && (lumen < 50 || lumen > 60)))
   {
     for (int i = 0; i < netural_frames_size; i++)
     {
       display.clearDisplay();
       display.drawBitmap(xx, yy, netural_frames[i], frame_size, frame_size, 1);
+      display.display();
+      delay(tt);
+    }
+  }
+  else if ((moisture < 3 || moisture > 6) && (temp < 27 || temp > 32) && (lumen >= 50 && lumen <= 60) ||
+           ((moisture < 3 || moisture > 6) && (temp >= 27 && temp <= 32) && (lumen < 50 || lumen > 60)) ||
+           ((moisture >= 3 && moisture <= 6) && (temp < 27 || temp > 32) && (lumen < 50 || lumen > 60)))
+  {
+    for (int i = 0; i < sick_frames_size; i++)
+    {
+      display.clearDisplay();
+      display.drawBitmap(xx, yy, sick_frames[i], frame_size, frame_size, 1);
+      display.display();
+      delay(tt);
+    }
+  }
+  else if ((moisture < 3 || moisture > 6) && (temp < 27 || temp > 32) && (lumen < 50 || lumen > 60))
+  {
+    for (int i = 0; i < sad_frames_size; i++)
+    {
+      display.clearDisplay();
+      display.drawBitmap(xx, yy, sad_frames[i], frame_size, frame_size, 1);
       display.display();
       delay(tt);
     }
