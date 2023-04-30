@@ -20,8 +20,8 @@ int analogPin = 34;
 const int sensorPin = 32;
 int val = 0;
 int moisture;
-char ssid[] = "Plub";
-char pass[] = "0813541229";
+char ssid[] = "Choll_2.4G";
+char pass[] = "0997122060";
 
 char ipaddress[20];
 
@@ -417,7 +417,7 @@ void loop()
 
             client.println("<nav class=' w3-sidebar w3-collapse w3-top w3-large' style=\"z-index:3;width:300px;font-weight:bold;background-color: #0D2329;\" id=\"mySidebar\" ><br>");
             client.println("<a href=\"javascript:void(0)\" onclick=\"w3_close()\" class=\"w3-button w3-hide-large w3-display-topleft\" style=\"width:100%;font-size:22px; background-color: #FF914D;\">Back</a>");
-            client.println("<img src ='https://cdn.fbsbx.com/v/t59.2708-21/343065524_240535281838773_6005365867278290012_n.gif?_nc_cat=102&ccb=1-7&_nc_sid=041f46&_nc_eui2=AeG5wFBgVTBMmRwdK7vwGyp57-qLX8crph3v6otfxyumHfhU-m473656GkyGUxKmxi6nQXZYnE_hlpYzMK_oz9N8&_nc_ohc=073NvDUudI0AX94G6Zl&_nc_ht=cdn.fbsbx.com&oh=03_AdS4s-6hzl8dUYEJ6woNTPKKrijpZvgqpldms6Lb7BsK1A&oe=644D14B5' width=\"350px\" style=\"margin-left: -35px;\">");
+            client.println("<img src ='https://i.ibb.co/qxSWpkr/Emoplanter.gif?fbclid=IwAR2ArWEsMDtK0S20wgdf93GVVdcaR1fePebwKdePVanqr_MCtC40CSTo7rs' width=\"350px\" style=\"margin-left: -35px;\">");
             client.println("<div class=\"w3-container\"></div>");
             client.println("<div class=\"w3-bar-block\" style=\"color: white; margin-left: 8px;\">");
             client.println("<a href=\"#\" onclick=\"w3_close()\" class=\"w3-bar-item w3-button w3-hover-white\" >Home</a>");
@@ -527,7 +527,14 @@ void loop()
             client.println("</h2></li>");
             client.println("<li class=\"w3-padding-16\"><h2>");
             client.println(lumen);
-            client.println(" %</h2><h4 id=\"time\"></h4><h4 id=\"status\"></h4></li>");
+            if ((temp >= 27 && temp <= 32) && (lumen >= 50 && lumen <= 60))
+            {
+              client.println(" %</h2><h4 id=\"countup\"></h4></li>");
+            }
+            else
+            {
+              client.println(" %</h2><h4>Please Give me a Sunlight</h4></li>");
+            }
             if ((moisture >= 3 && moisture <= 6) && (temp >= 27 && temp <= 32) && (lumen >= 50 && lumen <= 60))
             {
               client.println("<img src=\"https://media1.giphy.com/media/YpTSRFbHGuRfy1goOb/giphy.gif?cid=6c09b952f4e0a27e55a96cb115edb685131db6663cee8621&ep=v1_internal_gifs_gifId&rid=giphy.gif&ct=s\" width=\"280px\" alt=\"\"><h2 style=\"color: green;\">Happy</h2><br>");
@@ -626,15 +633,31 @@ void loop()
               client.println("}");
               client.println("}, 1000);");
             }
-            client.println("let hourTime = new Date().getHours();");
-            client.println("let options = { timeStyle: 'short' };");
-            client.println("let time = new Date().toLocaleString('en-US', options)");
-            client.println("document.getElementById(\"time\").innerHTML = \"Time : \" + time;");
-            client.println("if (hourTime >= 6 && hourTime < 15) {");
-            client.println("document.getElementById(\"status\").innerHTML = \"Please move me into house\";");
-            client.println("} else {");
-            client.println("document.getElementById(\"status\").innerHTML = \"Please move me into house\";");
-            client.println("}");
+            if ((temp >= 28 && temp <= 32) && (lumen >= 50 && lumen <= 60))
+            {
+              client.println("let countUpTime = 0;");
+              client.println("");
+              client.println("const x = setInterval(function() {");
+              client.println("");
+              client.println("  countUpTime += 1000;");
+              client.println("");
+              client.println("  // Time calculations for hours, minutes and seconds");
+              client.println("  const hours = Math.floor(countUpTime / (1000 * 60 * 60));");
+              client.println("  const minutes = Math.floor((countUpTime % (1000 * 60 * 60)) / (1000 * 60));");
+              client.println("  const seconds = Math.floor((countUpTime % (1000 * 60)) / 1000);");
+              client.println("");
+              client.println("  // If the elapsed time is more than 4 hours (in milliseconds), show \"Time's up!\"");
+              client.println("  if (countUpTime >= 10 * 1000) {");
+              client.println("    clearInterval(x);");
+              client.println("    document.getElementById(\"countup\").innerHTML = \"I'm Full !! Please move me into the house\";");
+              client.println("  }");
+              client.println("  else {");
+              client.println("    // Display the result in the element with id=\"countup\"");
+              client.println("    document.getElementById(\"countup\").innerHTML = \"Eating : \" + hours + \"h \" + minutes + \"m \" + seconds + \"s \";");
+              client.println("  }");
+              client.println("");
+              client.println("}, 1000);");
+            }
             client.println("</script>");
             client.println();
             break;
