@@ -168,7 +168,7 @@ void loop()
 
             client.println("<nav class=' w3-sidebar w3-collapse w3-top w3-large' style=\"z-index:3;width:300px;font-weight:bold;background-color: #0D2329;\" id=\"mySidebar\" ><br>");
             client.println("<a href=\"javascript:void(0)\" onclick=\"w3_close()\" class=\"w3-button w3-hide-large w3-display-topleft\" style=\"width:100%;font-size:22px; background-color: #FF914D;\">Back</a>");
-            client.println("<img src ='https://i.ibb.co/qxSWpkr/Emoplanter.gif?fbclid=IwAR2ArWEsMDtK0S20wgdf93GVVdcaR1fePebwKdePVanqr_MCtC40CSTo7rs' width=\"350px\" style=\"margin-left: -35px;\">");
+            client.println("<img src ='https://i.ibb.co/qxSWpkr/Emoplanter.gif?fbclid=IwAR2ArWEsMDtK0S20wgdf93GVVdcaR1fePebwKdePVanqr_MCtC40CSTo7rs' width=\"350px\" style=\"margin-left: -35px; padding-top: 30px\">");
             client.println("<div class=\"w3-container\"></div>");
             client.println("<div class=\"w3-bar-block\" style=\"color: white; margin-left: 8px;\">");
             client.println("<a href=\"#\" onclick=\"w3_close()\" class=\"w3-bar-item w3-button w3-hover-white\" >Home</a>");
@@ -207,12 +207,12 @@ void loop()
 
             client.println("<div class=\"w3-row-padding\">");
             client.println("<div class=\"w3-half\">");
-            client.println("<img src=\"https://images.squarespace-cdn.com/content/v1/51e2b920e4b084ee7b28f247/1558621823441-XL7EQ2BFGBKBQD0JSEGT/Photo-Lua-3.jpg?format=2500w\" style=\"width:100%\" onclick=\"onClick(this)\" alt=\"Playful\">");
-            client.println("<img src=\"https://cdn.thisiswhyimbroke.com/images/the-smart-planter-with-feelings-lua-640x533.jpg\" style=\"width:100%\" onclick=\"onClick(this)\" alt=\"Feeling fresh\">");
+            client.println("<img src=\"https://scontent.fbkk6-2.fna.fbcdn.net/v/t1.15752-9/344300559_195079396677974_2470272347172444815_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=ae9488&_nc_eui2=AeG2xieyk3tg8UlkwlUsL-YNi5bSdRKFRqeLltJ1EoVGp1MHFCuzFU0LWgFOixIfOTX_gAAGAxvUeJTHWLvCVote&_nc_ohc=QaTt3t8h70wAX-CyNQE&_nc_ht=scontent.fbkk6-2.fna&oh=03_AdR1CZu2V3oBITVEnILcU4C2qaIwlYtMjBJaft40hwgYSA&oe=6476AC4E\" style=\"width:100%\" onclick=\"onClick(this)\" alt=\"Circuit Project\">");
+            client.println("<img src=\"https://scontent.fbkk6-2.fna.fbcdn.net/v/t1.15752-9/344263415_1215127782496728_2217792661814427857_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=ae9488&_nc_eui2=AeHGp_xhUSOBL4fJPRYX8NYjblOSihueDDBuU5KKG54MMKCCg7nNpB3-8lLyKNGa_uLbtM1gwsnVx565ml4PcuO1&_nc_ohc=Fl39EG_mbucAX_KUuQK&_nc_ht=scontent.fbkk6-2.fna&oh=03_AdTQlU9K2vhathusr8gNEqpnrO00Orae2hnp_6WKfiuBQQ&oe=6476A604\" style=\"width:100%\" onclick=\"onClick(this)\" alt=\"Feeling fresh\">");
             client.println("</div>");
             client.println("<div class=\"w3-half\">");
-            client.println("<img src=\"https://hackster.imgix.net/uploads/attachments/1473387/img_1365_EcE47fYqr7.jpg?auto=compress%2Cformat&w=1280&h=960&fit=max\" style=\"width:100%\" onclick=\"onClick(this)\" alt=\"Hot!!!\">");
-            client.println("<img src=\"https://c4.iggcdn.com/indiegogo-media-prod-cld/image/upload/c_fill,w_695,g_auto,q_auto,dpr_2.6,f_auto,h_460/vs4q75hnhrxq7osum49e\" style=\"width:100%\" onclick=\"onClick(this)\" alt=\"Shinny smile\">");
+            client.println("<img src=\"https://scontent.fbkk3-6.fna.fbcdn.net/v/t1.15752-9/340764979_580619037499192_197213629036979324_n.png?_nc_cat=106&ccb=1-7&_nc_sid=ae9488&_nc_eui2=AeHaS1z5Z8sMjE0Ylc2K5GHH4ARQrZbccPXgBFCtltxw9QwIm4r-EAbtJiV_PtdFPm-U_ChFrbmWGIXJ84f-bz-Q&_nc_ohc=HlhuYYoYqn0AX8Vi59k&_nc_ht=scontent.fbkk3-6.fna&oh=03_AdQU8yTybSvyQcDT2-eRKjgFSVBlE7TzTQWTb32UYutgdQ&oe=6476D1B6\" style=\"width:100%\" onclick=\"onClick(this)\" alt=\"Circuit Project\">");
+            client.println("<img src=\"https://scontent.fbkk4-2.fna.fbcdn.net/v/t1.15752-9/344029756_275967631452571_8943238359895345502_n.png?_nc_cat=110&ccb=1-7&_nc_sid=ae9488&_nc_eui2=AeESV7Tou2NMVUCqD9T0_DBLMXbOfREWVUAxds59ERZVQJffxmE_sdF9hlzVliMkQYkUIFZtFU3kdl0jE8bT_4v6&_nc_ohc=6FkLB-oAZtIAX_fHq0R&_nc_ht=scontent.fbkk4-2.fna&oh=03_AdSPTdpo8b633EPjxN4TceJryUeSDmvTJv2sKWErl6DRDQ&oe=6476D117\" style=\"width:100%\" onclick=\"onClick(this)\" alt=\"Circuit Project\">");
             client.println("</div>");
             client.println("</div>");
 
@@ -243,7 +243,7 @@ void loop()
               client.println("<li class=\"w3-padding-16 \"><h2>Soil Moisture</h2></li>");
             }
             client.println("<li class=\"w3-padding-16\"><h2>Temperature</h2></li>");
-            client.println("<li class=\"w3-padding-48\"><h2>Light Intensity</h2></li>");
+            client.println("<li class=\"w3-padding-48\"><h2>Light Dependent Resistor</h2></li>");
             if (moisture < 3 || moisture > 6)
             {
               client.println("<li class=\"w3-padding-32\"><h2>Planter's emotion<h2>");
@@ -280,11 +280,11 @@ void loop()
             client.println(val);
             if ((temp >= 27 && temp <= 32) && (val >= 0 && val <= 280))
             {
-              client.println(" lux</h2><h4 id=\"countup\"></h4></li>");
+              client.println("</h2><h4 id=\"countup\"></h4></li>");
             }
             else
             {
-              client.println(" lux</h2><h4>Please Give me a Sunlight</h4></li>");
+              client.println("</h2><h4>Please Give me a Sunlight</h4></li>");
             }
             if ((moisture >= 3 && moisture <= 6) && (temp >= 27 && temp <= 32) && (val >= 0 && val <= 280))
             {
@@ -384,7 +384,7 @@ void loop()
               client.println("}");
               client.println("}, 1000);");
             }
-            if ((temp >= 28 && temp <= 32) && (val >= 140 && val <= 280))
+            if ((temp >= 27 && temp <= 32) && (val >= 0 && val <= 280))
             {
               client.println("let countUpTime = 0;");
               client.println("");
@@ -429,6 +429,4 @@ void loop()
     Serial.println("Client disconnected.");
     Serial.println("");
   }
-
- 
 }
