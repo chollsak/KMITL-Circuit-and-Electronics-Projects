@@ -1,4 +1,4 @@
 ﻿# Emo-Planter
 
-<img src="![image](https://github.com/chollsak/KMITL-Circuit-and-Electronics-Projects/assets/83394467/b2fa4450-debb-409c-9e3e-181ce20cad82)
-" >
+<img src="[![Uploading image.png…]()](https://i.ibb.co/PDt1248/341975700-766832461772392-7627098516997706175-n.png)https://i.ibb.co/PDt1248/341975700-766832461772392-7627098516997706175-n.png
+">
