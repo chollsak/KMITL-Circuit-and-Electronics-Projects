@@ -1,2 +1,3 @@
 ﻿# Emo-Planter
-<img src="[img_girl.jpg](https://drive.google.com/file/d/1kuKsSheJNMiNjCdhu0i6VTXfxkqEaZBu/view?usp=sharing)https://drive.google.com/file/d/1kuKsSheJNMiNjCdhu0i6VTXfxkqEaZBu/view?usp=sharing">
+ 
+![alt text]([http://url/to/img.png](https://drive.google.com/file/d/1kuKsSheJNMiNjCdhu0i6VTXfxkqEaZBu/view?usp=sharing)https://drive.google.com/file/d/1kuKsSheJNMiNjCdhu0i6VTXfxkqEaZBu/view?usp=sharing)
